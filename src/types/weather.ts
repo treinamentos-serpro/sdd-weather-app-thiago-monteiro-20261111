@@ -8,40 +8,54 @@
 
 export type Unit = 'celsius' | 'fahrenheit';
 
+export type PostalCodeLookup =
+  | { found: false }
+  | { found: true; cityName: string; stateCode: string; stateName: string };
+
 /** Resultado da API de geocoding (uma cidade). */
 export interface City {
   id: number;
   name: string;
-  country: string;
-  /** Estado/região, quando disponível (ajuda a desambiguar homônimos). */
-  admin1?: string;
+  stateCode: string;
+  stateName: string;
+  countryCode: 'BR';
   latitude: number;
   longitude: number;
 }
 
+export type RegionSelection =
+  | { kind: 'city'; city: City }
+  | { kind: 'state'; stateCode: string; stateName: string };
+
 /** Condições atuais. Temperatura sempre em °C. */
 export interface CurrentWeather {
-  temperature: number;
-  weatherCode: number;
-  humidity: number;
-  windSpeed: number;
-  pressure: number;
-  precipitation: number;
   time: string;
+  temperatureC: number | null;
+  windSpeedKmh: number | null;
+  humidityPercent: number | null;
+  precipitationProbabilityPercent: number | null;
+  weatherCode: number | null;
+  precipitationMm?: number | null;
+  pressureHpa?: number | null;
 }
 
 /** Um dia da previsão. Temperaturas sempre em °C. */
 export interface ForecastDay {
   date: string;
-  min: number;
-  max: number;
-  weatherCode: number;
-  precipitationProbability: number;
+  minTemperatureC: number | null;
+  maxTemperatureC: number | null;
+  windSpeedKmh: number | null;
+  humidityPercent: number | null;
+  precipitationProbabilityPercent: number | null;
+  weatherCode: number | null;
 }
 
 /** Agregado entregue à UI: cidade + clima atual + 5 dias de previsão. */
 export interface WeatherData {
-  city: City;
-  current: CurrentWeather;
+  region: RegionSelection;
+  current: CurrentWeather | null;
   forecast: ForecastDay[];
+  timeZone: string;
+  isStateAggregate: boolean;
+  sampleCount?: number;
 }

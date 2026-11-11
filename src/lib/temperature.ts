@@ -17,7 +17,8 @@ export function convertTemperature(celsius: number, unit: Unit): number {
  * Formata uma temperatura (armazenada em Celsius) para exibição na unidade
  * escolhida, arredondando para inteiro e adicionando o símbolo de grau.
  */
-export function formatTemperature(celsius: number, unit: Unit): string {
+export function formatTemperature(celsius: number | null, unit: Unit): string {
+  if (celsius === null || !Number.isFinite(celsius)) return 'Indisponível';
   const value = Math.round(convertTemperature(celsius, unit));
   return `${value}°`;
 }

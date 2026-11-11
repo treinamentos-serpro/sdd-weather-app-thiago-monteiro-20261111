@@ -10,11 +10,11 @@ export default function ErrorState({ message, onRetry }: ErrorStateProps) {
       <span aria-hidden="true" className="text-4xl">
         ⚠️
       </span>
-      <p className="text-white/80">{message}</p>
+      <p className="max-w-full text-white/80 [overflow-wrap:anywhere]">{message}</p>
       <button
         type="button"
         onClick={onRetry}
-        className="rounded-lg bg-accent-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-600"
+        className="min-h-11 rounded-lg bg-accent-400 px-4 py-2 text-sm font-semibold text-night-900 transition hover:bg-white"
       >
         Tentar novamente
       </button>
